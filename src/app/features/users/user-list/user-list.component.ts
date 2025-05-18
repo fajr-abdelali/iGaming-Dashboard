@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { ApiService } from 'src/app/core/services/api.service';
 
 export interface User {
   id: string;
@@ -15,5 +16,9 @@ export interface User {
 export class UserListComponent {
   displayedColumns: string[] = ['id', 'name', 'email', 'actions'];
   dataSource = new MatTableDataSource<User>();
-  constructor() {}
+  constructor(private apiService: ApiService) {
+    this.apiService.getUsers().subscribe((users: User[]) => {
+      this.dataSource.data = users;
+    });
+  }
 }

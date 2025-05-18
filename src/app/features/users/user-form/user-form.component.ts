@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ApiService } from 'src/app/core/services/api.service';
 
 @Component({
   selector: 'app-user-form',
@@ -9,7 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class UserFormComponent {
   userForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private apiService: ApiService,private router:Router) {
     this.userForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', Validators.required],
@@ -18,7 +20,12 @@ export class UserFormComponent {
 
   onSubmit() {
     if (this.userForm.valid) {
-      console.log(this.userForm.value);
+      this.apiService
+        .addUser(this.userForm.value)
+        .subscribe((msg) => {
+          console.log(msg)
+          this.router.navigate([''])
+        });
     }
   }
 }
