@@ -6,6 +6,7 @@ import { DashboardComponent } from './features/dashboard/dashboard.component';
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
+  { path: 'users', loadChildren: () => import('./features/users/users.module').then(m => m.UsersModule) },
   { path: 'login', component: LoginComponent },
   { path: '**', redirectTo: 'dashboard' },
 ];
